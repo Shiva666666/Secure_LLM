@@ -8,22 +8,22 @@ Repository: [https://github.com/Shiva666666/Secure_LLM](https://github.com/Shiva
 
 ```mermaid
 flowchart LR
-    client[Client App / Browser UI]
-    proxy[FastAPI Firewall Proxy]
-    embed[LM Studio Embeddings API]
-    supabase[Supabase pgvector RPC]
-    decision{Similarity > 0.85?}
-    chat[LM Studio Chat API]
-    blocked[403 Security Block]
-    response[Chat Response]
+    client["Client App Browser UI"]
+    proxy["FastAPI Firewall Proxy"]
+    embed["LM Studio Embeddings API"]
+    supabase["Supabase pgvector RPC"]
+    decision{"Similarity over 0.85"}
+    chat["LM Studio Chat API"]
+    blocked["403 Security Block"]
+    response["Chat Response"]
 
     client -->|"POST /v1/chat/completions"| proxy
-    proxy -->|"Extract last message"| embed
-    embed -->|"384-d embedding"| proxy
-    proxy -->|"match_malicious_patterns(...)"| supabase
-    supabase -->|"max similarity"| decision
-    decision -->|"Yes"| blocked
-    decision -->|"No"| chat
+    proxy -->|"ExtractLastMessage"| embed
+    embed -->|"Embedding384D"| proxy
+    proxy -->|"MatchMaliciousPatterns"| supabase
+    supabase -->|"MaxSimilarity"| decision
+    decision -->|"Block"| blocked
+    decision -->|"Allow"| chat
     chat --> response
     blocked --> client
     response --> client
